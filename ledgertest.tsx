@@ -1,14 +1,18 @@
-import {isTransportCreationPossible, getTransport} from "./transport";
-import AppElrond from '@elrondnetwork/hw-app-elrond';
+import { getTransport, isTransportCreationPossible } from "./hw/transport";
+import HwProvider from "./hw/provider";
 
-export default async function tryLedger(): Promise<string> {
 
-    let isSup = await isTransportCreationPossible();
-    console.log(isSup);
-    let transport = await getTransport();
+export async function tryLedger(): Promise<string> {
+  let isSup = await isTransportCreationPossible();
+  console.log(isSup);
+  let transport = await getTransport();
 
-    const erdApp = new AppElrond(transport);
+  const erdApp = new HwProvider(transport);
 
-    const {address} = await erdApp.getAddress(0, 0);
-    return address;
+  const { address } = await erdApp.getAddress("44'/508'/0'/0'/0'", true);
+  return address;
+}
+
+export async function provideESDT(): Promise<any> {
+
 }
